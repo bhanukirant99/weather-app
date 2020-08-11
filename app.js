@@ -2,22 +2,22 @@ const request = require('request');
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
-const place = process.argv.splice(2).toString();
-if (place) {
-    geocode(place, (error, data) => {
+const address = process.argv.splice(2).toString();
+if (!address) {
+    console.log('Enter a place');
+} else {
+    geocode(address, (error, {latitude, longitude, location}) => {
         if (error) {
             return console.log(error);
         }
-        forecast(data.latitude, data.longitude, (error, forecastData) => {
+        forecast(latitude, longitude, (error, forecastData) => {
             if (error) {
                 return console.log(error);
             }
-            console.log(data.location);
+            console.log(location);
             console.log(forecastData);
         })
     })
-} else {
-    console.log('Enter a place');
 }
 
 // c3e5bb33f9mshf6911228a8c7962p11959ajsnf97032de6731
